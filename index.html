@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Carta para Gabriele 💌</title>
+    
+    <!-- Fontes com caligrafia manual -->
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=La+Belle+Aurore&family=Bad+Script&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Partículas de poeira/efeito vintage -->
+    <div class="dust-particles"></div>
+    
+    <!-- Sobrescrita da carta (início) -->
+    <div class="envelope-wrapper" id="envelopeWrapper">
+        <div class="envelope">
+            <div class="envelope-front">
+                <div class="stamp">❤️</div>
+                <div class="address">
+                    <span class="to">Para: Gabriele</span>
+                    <span class="from">De: Alguém que pensa em você</span>
+                </div>
+                <div class="seal">💌</div>
+                <div class="open-text">Clique para abrir</div>
+            </div>
+            <div class="envelope-back"></div>
+        </div>
+    </div>
+    
+    <!-- A carta em si -->
+    <div class="letter-container hidden" id="letterContainer">
+        <div class="paper"></div> <!-- Textura do papel -->
+        
+        <div class="letter-content">
+            <!-- Cabeçalho da carta -->
+            <div class="letter-header">
+                <span class="date">[Data de hoje]</span>
+                <span class="location">Meu coração</span>
+            </div>
+            
+            <!-- Saudação -->
+            <div class="salutation">
+                <span class="greeting" id="greeting"></span>
+            </div>
+            
+            <!-- Corpo da carta - EFEITO MÁQUINA DE ESCREVER -->
+            <div class="letter-body" id="letterBody">
+                <!-- O texto será inserido aqui dinamicamente -->
+            </div>
+            
+            <!-- Despedida -->
+            <div class="farewell" id="farewell"></div>
+            
+            <!-- Assinatura -->
+            <div class="signature" id="signature"></div>
+            
+            <!-- Post scriptum -->
+            <div class="ps" id="ps"></div>
+            
+            <!-- Pequeno desenho de coração -->
+            <div class="hand-drawn-heart">❤️</div>
+        </div>
+        
+        <!-- Botão para reiniciar/ver novamente -->
+        <button class="btn-read-again" id="readAgainBtn">
+            <span class="btn-icon">📜</span> Ler novamente
+        </button>
+    </div>
+    
+    <!-- Script -->
+    <script src="js/main.js"></script>
+</body>
+</html>
