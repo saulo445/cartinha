@@ -1,0 +1,587 @@
+/* ===== RESET E VARIÁVEIS ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --paper-cream: #fdf8ed;
+    --paper-old: #f5e9d8;
+    --paper-dark: #e8d9c0;
+    --ink-brown: #4a3a2a;
+    --ink-soft: #5c4b3a;
+    --seal-red: #b33a3a;
+    --shadow-warm: 0 10px 30px rgba(74, 58, 42, 0.15);
+    --shadow-old: 0 15px 40px rgba(0, 0, 0, 0.2);
+    --border-old: 1px solid rgba(74, 58, 42, 0.15);
+    --font-handwriting: 'Caveat', 'Bad Script', 'Dancing Script', cursive;
+}
+
+body {
+    background: linear-gradient(145deg, #2e1e1a 0%, #3d2c26 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    font-family: var(--font-handwriting);
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* ===== PARTÍCULAS DE POEIRA (efeito vintage) ===== */
+.dust-particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.dust-particles::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 20% 30%, rgba(255, 255, 200, 0.03) 0%, transparent 30%),
+                radial-gradient(circle at 80% 70%, rgba(200, 180, 150, 0.03) 0%, transparent 40%),
+                radial-gradient(circle at 40% 80%, rgba(255, 220, 180, 0.03) 0%, transparent 35%),
+                radial-gradient(circle at 90% 20%, rgba(210, 180, 140, 0.03) 0%, transparent 45%);
+    animation: dustFloat 20s infinite linear;
+}
+
+@keyframes dustFloat {
+    0% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.1); }
+    100% { opacity: 0.3; transform: scale(1); }
+}
+
+/* ===== ENVELOPE ===== */
+.envelope-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+    perspective: 1200px;
+    animation: fadeIn 1.5s ease;
+}
+
+.envelope {
+    position: relative;
+    width: 340px;
+    height: 260px;
+    background: #e8d9c0;
+    background: linear-gradient(145deg, #dac29e, #c9af87);
+    border-radius: 8px 8px 15px 15px;
+    box-shadow: var(--shadow-old), inset 0 0 20px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform-style: preserve-3d;
+    border: 1px solid rgba(100, 70, 40, 0.3);
+}
+
+.envelope:hover {
+    transform: scale(1.02) rotateY(5deg);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+}
+
+.envelope-front {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    border-radius: 8px;
+    background: linear-gradient(145deg, #dac29e, #c9af87);
+    border: 1px solid rgba(180, 140, 100, 0.3);
+}
+
+.envelope::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255,255,240,0.2) 0%, rgba(200,170,130,0.1) 100%);
+    pointer-events: none;
+    border-radius: 8px;
+}
+
+.stamp {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 2.5rem;
+    transform: rotate(15deg);
+    opacity: 0.9;
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.1);
+}
+
+.address {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 30px;
+    font-family: var(--font-handwriting);
+    color: var(--ink-brown);
+    text-shadow: 1px 1px 0 rgba(255,255,240,0.5);
+}
+
+.to {
+    font-size: 1.6rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    border-bottom: 2px dashed var(--ink-brown);
+    padding-bottom: 5px;
+}
+
+.from {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    font-style: italic;
+}
+
+.seal {
+    width: 70px;
+    height: 70px;
+    background: radial-gradient(circle at 30% 30%, #b33a3a, #8b1e1e);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    color: rgba(255, 215, 0, 0.9);
+    box-shadow: 0 5px 0 #4a1e1e, inset 0 -2px 5px rgba(0,0,0,0.2);
+    margin-bottom: 25px;
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    transform: rotate(-10deg);
+    transition: transform 0.3s ease;
+}
+
+.envelope:hover .seal {
+    transform: rotate(-5deg) scale(1.05);
+}
+
+.open-text {
+    font-size: 1rem;
+    color: var(--ink-soft);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    background: rgba(255, 240, 210, 0.6);
+    padding: 8px 20px;
+    border-radius: 30px;
+    font-weight: 600;
+    border: 1px solid var(--ink-brown);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.9; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.05); }
+}
+
+/* ===== CARTA (PAPEL ANTIGO) ===== */
+.letter-container {
+    position: relative;
+    width: 100%;
+    max-width: 750px;
+    margin: 0 auto;
+    padding: 50px 40px;
+    background: var(--paper-cream);
+    background-image: 
+        linear-gradient(to right, rgba(200, 180, 140, 0.1) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(160, 130, 80, 0.08) 1px, transparent 1px);
+    background-size: 40px 40px, 40px 40px;
+    border-radius: 2px;
+    box-shadow: var(--shadow-old), inset 0 0 50px rgba(160, 120, 80, 0.1);
+    border: 1px solid rgba(120, 80, 50, 0.2);
+    transform-origin: top center;
+    animation: letterReveal 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+    font-family: var(--font-handwriting);
+    z-index: 30;
+    position: relative;
+}
+
+/* Efeito de papel envelhecido - bordas queimadas */
+.letter-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at 0% 0%, rgba(160, 100, 60, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 100% 100%, rgba(120, 70, 40, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 100% 0%, rgba(140, 90, 50, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 0% 100%, rgba(180, 120, 70, 0.08) 0%, transparent 50%);
+    pointer-events: none;
+    border-radius: 2px;
+}
+
+/* Textura de papel amassado */
+.letter-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="1" stitchTiles="stitch"/><feColorMatrix type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.1 0"/></filter><rect width="100" height="100" filter="url(%23noise)" opacity="0.08"/></svg>');
+    background-repeat: repeat;
+    opacity: 0.2;
+    pointer-events: none;
+    border-radius: 2px;
+}
+
+/* Dobras do papel */
+.paper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.02) 3%, transparent 6%),
+                linear-gradient(0deg, transparent 0%, rgba(0,0,0,0.02) 3%, transparent 6%);
+    pointer-events: none;
+    border-radius: 2px;
+}
+
+.letter-content {
+    position: relative;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+/* Cabeçalho */
+.letter-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.3rem;
+    color: var(--ink-soft);
+    border-bottom: 2px dashed rgba(90, 60, 30, 0.3);
+    padding-bottom: 20px;
+    margin-bottom: 15px;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+.date, .location {
+    position: relative;
+}
+
+.date::before {
+    content: '📅';
+    margin-right: 8px;
+    font-size: 1rem;
+    opacity: 0.7;
+}
+
+.location::before {
+    content: '📍';
+    margin-right: 8px;
+    font-size: 1rem;
+    opacity: 0.7;
+}
+
+/* Saudação */
+.salutation {
+    font-size: 2.2rem;
+    font-weight: 600;
+    color: var(--ink-brown);
+    margin-bottom: 15px;
+    line-height: 1.3;
+}
+
+.greeting {
+    display: inline-block;
+    border-bottom: 3px solid rgba(180, 100, 80, 0.3);
+    padding-bottom: 5px;
+}
+
+/* Corpo da carta */
+.letter-body {
+    font-size: 1.6rem;
+    line-height: 1.7;
+    color: var(--ink-brown);
+    text-align: justify;
+    word-spacing: 2px;
+    margin-bottom: 20px;
+    font-weight: 400;
+    min-height: 300px;
+    white-space: pre-wrap;
+    font-family: 'Caveat', 'Bad Script', cursive;
+}
+
+/* Cursor da máquina de escrever */
+.typewriter-cursor {
+    display: inline-block;
+    width: 8px;
+    height: 1.6rem;
+    background-color: var(--ink-brown);
+    margin-left: 3px;
+    animation: blink 1s infinite;
+    vertical-align: middle;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* Despedida */
+.farewell {
+    font-size: 1.8rem;
+    color: var(--ink-brown);
+    margin-top: 30px;
+    text-align: right;
+    font-style: italic;
+    padding-right: 20px;
+}
+
+/* Assinatura */
+.signature {
+    font-size: 2.4rem;
+    color: var(--ink-brown);
+    text-align: right;
+    margin-top: 10px;
+    padding-right: 20px;
+    font-weight: 700;
+    font-family: 'La Belle Aurore', 'Dancing Script', cursive;
+    border-top: 2px dashed rgba(90, 60, 30, 0.2);
+    padding-top: 25px;
+}
+
+/* Post Scriptum */
+.ps {
+    font-size: 1.4rem;
+    color: var(--ink-soft);
+    margin-top: 30px;
+    font-style: italic;
+    padding-left: 20px;
+    border-left: 4px solid rgba(180, 100, 80, 0.4);
+}
+
+.ps::before {
+    content: 'P.S.';
+    font-weight: 700;
+    margin-right: 10px;
+    color: #8b4a4a;
+}
+
+/* Desenho de coração à mão */
+.hand-drawn-heart {
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+    font-size: 3rem;
+    opacity: 0.2;
+    transform: rotate(-10deg);
+    animation: heartbeat 1.8s ease infinite;
+}
+
+@keyframes heartbeat {
+    0%, 100% { transform: rotate(-10deg) scale(1); opacity: 0.2; }
+    50% { transform: rotate(-10deg) scale(1.2); opacity: 0.3; }
+}
+
+/* Botão "Ler novamente" */
+.btn-read-again {
+    position: absolute;
+    bottom: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--paper-dark);
+    border: 2px solid var(--ink-brown);
+    color: var(--ink-brown);
+    padding: 12px 30px;
+    font-size: 1.3rem;
+    border-radius: 40px;
+    font-family: var(--font-handwriting);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-warm);
+    z-index: 40;
+    white-space: nowrap;
+}
+
+.btn-read-again:hover {
+    background: var(--ink-brown);
+    color: var(--paper-cream);
+    border-color: var(--paper-cream);
+    transform: translateX(-50%) scale(1.05);
+}
+
+.btn-icon {
+    font-size: 1.2rem;
+}
+
+/* ===== CLASSES UTILITÁRIAS ===== */
+.hidden {
+    display: none !important;
+}
+
+.visible {
+    display: block !important;
+}
+
+/* ===== ANIMAÇÕES ===== */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes letterReveal {
+    0% {
+        opacity: 0;
+        transform: scale(0.8) rotate(-2deg);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+    }
+}
+
+@keyframes envelopeOpen {
+    0% { transform: rotateY(0); }
+    100% { transform: rotateY(180deg); }
+}
+
+/* ===== RESPONSIVIDADE ===== */
+@media (max-width: 768px) {
+    .envelope {
+        width: 300px;
+        height: 230px;
+    }
+    
+    .to {
+        font-size: 1.4rem;
+    }
+    
+    .from {
+        font-size: 1.1rem;
+    }
+    
+    .letter-container {
+        padding: 35px 25px;
+    }
+    
+    .letter-body {
+        font-size: 1.4rem;
+        line-height: 1.6;
+    }
+    
+    .salutation {
+        font-size: 1.8rem;
+    }
+    
+    .signature {
+        font-size: 2rem;
+    }
+    
+    .btn-read-again {
+        bottom: -50px;
+        padding: 10px 25px;
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .envelope {
+        width: 260px;
+        height: 200px;
+    }
+    
+    .stamp {
+        font-size: 2rem;
+        top: 10px;
+        right: 10px;
+    }
+    
+    .seal {
+        width: 55px;
+        height: 55px;
+        font-size: 1.8rem;
+    }
+    
+    .to {
+        font-size: 1.2rem;
+    }
+    
+    .from {
+        font-size: 1rem;
+    }
+    
+    .open-text {
+        font-size: 0.8rem;
+        padding: 6px 15px;
+    }
+    
+    .letter-container {
+        padding: 30px 20px;
+    }
+    
+    .letter-header {
+        font-size: 1.1rem;
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .letter-body {
+        font-size: 1.3rem;
+        line-height: 1.5;
+    }
+    
+    .farewell {
+        font-size: 1.5rem;
+    }
+    
+    .signature {
+        font-size: 1.8rem;
+    }
+    
+    .ps {
+        font-size: 1.2rem;
+    }
+}
+
+/* Efeito de mancha de café/tinta */
+.letter-container::after {
+    content: '';
+    position: absolute;
+    bottom: 20px;
+    right: 30px;
+    width: 100px;
+    height: 60px;
+    background: radial-gradient(ellipse at 70% 30%, rgba(100, 60, 20, 0.08) 0%, transparent 70%);
+    border-radius: 50%;
+    filter: blur(8px);
+    pointer-events: none;
+}
+
+/* Pequenas imperfeições do papel */
+.letter-container .stain {
+    position: absolute;
+    width: 150px;
+    height: 80px;
+    background: radial-gradient(ellipse at center, rgba(150, 100, 50, 0.05) 0%, transparent 80%);
+    border-radius: 50%;
+    filter: blur(15px);
+    pointer-events: none;
+}
